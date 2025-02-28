@@ -15,7 +15,11 @@ public class EmployeeService {
 	@Autowired
 	private EmployeeRepository employeeRepository;
 	
+	ArrayList<EmployeeDTO> employeesList = new ArrayList<>();
+	
 	public String saveEmployee(EmployeeDTO employeeDto) {
+		employeesList.add(employeeDto);
+		
 		Employee employee = new Employee();
 		employee.setName(employeeDto.getName());
 		employee.setGender(employeeDto.getGender());
@@ -57,6 +61,16 @@ public class EmployeeService {
 
 	public String deleteEmployee(Long id) {
 		employeeRepository.deleteById(id);
+		
+		for(int i=0; i<employeesList.size(); i++) {
+			EmployeeDTO employeeDTO = employeesList.get(i);
+			
+			if(employeeDTO.getId() == id) {
+				employeesList.remove(i);
+				break;
+			}
+		}
+		
 		return "Successfully deleted.";
 	}
 }
