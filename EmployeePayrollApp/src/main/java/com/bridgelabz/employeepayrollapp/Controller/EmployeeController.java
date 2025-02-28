@@ -16,20 +16,13 @@ public class EmployeeController {
 	@Autowired
 	private EmployeeService employeeService;
 	
-	@PostMapping
+	@PostMapping("/post")
 	public ResponseEntity<Employee> addEmployee(@RequestBody Employee employee) {
 		Employee employee2 =  employeeService.saveEmployee(employee);
 		return ResponseEntity.ok(employee2);
-		
-//		try {
-//			Employee employee2 =  employeeService.saveEmployee(employee);
-//			return ResponseEntity.ok(employee2);
-//		} catch (RuntimeException e) {
-//			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
-//		}
 	}
 
-	@GetMapping
+	@GetMapping("/get")
 	public List<Employee> getAllEmployees() {
 		return employeeService.getAllEmployees();
 	}
