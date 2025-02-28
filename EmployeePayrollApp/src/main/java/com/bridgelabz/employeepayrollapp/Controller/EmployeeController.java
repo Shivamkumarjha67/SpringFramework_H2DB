@@ -1,14 +1,14 @@
 package com.bridgelabz.employeepayrollapp.Controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import com.bridgelabz.employeepayrollapp.Model.Employee;
 import com.bridgelabz.employeepayrollapp.Services.EmployeeService;
+import com.bridgelabz.employeepayrollapp.dto.EmployeeDTO;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/employee")
@@ -17,23 +17,34 @@ public class EmployeeController {
 	private EmployeeService employeeService;
 	
 	@PostMapping("/post")
-	public ResponseEntity<Employee> addEmployee(@RequestBody Employee employee) {
-		Employee employee2 =  employeeService.saveEmployee(employee);
-		return ResponseEntity.ok(employee2);
+	public ResponseEntity<String> addEmployee(@RequestBody EmployeeDTO employeeDto) {
+		try {
+			return ResponseEntity.ok(employeeService.saveEmployee(employeeDto));
+		} catch (RuntimeException e) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+		}
 	}
 
-	@GetMapping("/get")
-	public List<Employee> getAllEmployees() {
+	@GetMapping("/getAll")
+	public List<EmployeeDTO> getAllEmployees() {
 		return employeeService.getAllEmployees();
 	}
 
-	@GetMapping("/{id}")
-	public Optional<Employee> getEmployeeById(@PathVariable Long id) {
-		return employeeService.getEmployeeById(id);
+	@GetMapping("/get/{id}")
+	public ResponseEntity<EmployeeDTO> getEmployeeById(@PathVariable Long id) {
+		try {
+			return ResponseEntity.ok(employeeService.getEmployeeById(id));
+		} catch (RuntimeException e) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+		}
 	}
 
-	@DeleteMapping("/{id}")
-	public void deleteEmployee(@PathVariable Long id) {
-		employeeService.deleteEmployee(id);
+	@DeleteMapping("/delete/{id}")
+	public ResponseEntity<String> deleteEmployee(@PathVariable Long id) {
+		try {
+			return ResponseEntity.ok(employeeService.deleteEmployee(id));
+		} catch (RuntimeException e) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+		}
 	}
 }
