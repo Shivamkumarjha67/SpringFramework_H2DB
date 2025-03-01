@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.*;
 import com.bridgelabz.employeepayrollapp.Services.EmployeeService;
 import com.bridgelabz.employeepayrollapp.dto.EmployeeDTO;
 
+import jakarta.validation.Valid;
+
 import java.util.List;
 
 @RestController
@@ -17,7 +19,7 @@ public class EmployeeController {
 	private EmployeeService employeeService;
 	
 	@PostMapping("/post")
-	public ResponseEntity<String> addEmployee(@RequestBody EmployeeDTO employeeDto) {
+	public ResponseEntity<String> addEmployee(@Valid @RequestBody EmployeeDTO employeeDto) {
 		try {
 			return ResponseEntity.ok(employeeService.saveEmployee(employeeDto));
 		} catch (RuntimeException e) {
@@ -28,6 +30,11 @@ public class EmployeeController {
 	@GetMapping("/getAll")
 	public List<EmployeeDTO> getAllEmployees() {
 		return employeeService.getAllEmployees();
+	}
+	
+	@PutMapping("/update")
+	public ResponseEntity<String> updateEmployee(@Valid @RequestBody EmployeeDTO eDto) {
+		return ResponseEntity.ok(employeeService.updateEmployee(eDto));
 	}
 
 	@GetMapping("/get/{id}")

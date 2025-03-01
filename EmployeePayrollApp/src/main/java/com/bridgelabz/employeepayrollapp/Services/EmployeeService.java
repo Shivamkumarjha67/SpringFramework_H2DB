@@ -7,12 +7,11 @@ import com.bridgelabz.employeepayrollapp.Model.Employee;
 import com.bridgelabz.employeepayrollapp.RepositoryLayer.EmployeeRepository;
 import com.bridgelabz.employeepayrollapp.dto.EmployeeDTO;
 
-import lombok.extern.java.Log;
 import lombok.extern.slf4j.Slf4j;
 
-import java.lang.System.Logger;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Slf4j
@@ -34,6 +33,24 @@ public class EmployeeService {
 		employeeRepository.save(employee);
 		log.info("Employee added to database {} ...", employee.getName());
 		return "Employee added successfully...";
+	}
+	
+	public String updateEmployee(EmployeeDTO employeeDto) {
+		Optional<Employee> existingEmployee = employeeRepository.findById(employeeDto.getId());
+
+        if (existingEmployee.isPresent()) {
+            Employee employee = existingEmployee.get();
+            employee.setName(employeeDto.getName());
+            employee.setGender(employeeDto.getGender());
+            employee.setSalary(employeeDto.getSalary());
+            employee.setId(employeeDto.getId());
+            employee.setDepartment(employeeDto.getDepartment());
+            
+            employeeRepository.save(employee);
+            return "Employee updated successfully.";
+        } else {
+            return "Employee not found with ID: " + employeeDto.getId();
+        }
 	}
 
 	public List<EmployeeDTO> getAllEmployees() {
