@@ -7,8 +7,10 @@ import com.bridgelabz.employeepayrollapp.Model.Employee;
 import com.bridgelabz.employeepayrollapp.RepositoryLayer.EmployeeRepository;
 import com.bridgelabz.employeepayrollapp.dto.EmployeeDTO;
 
+import lombok.extern.java.Log;
 import lombok.extern.slf4j.Slf4j;
 
+import java.lang.System.Logger;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,12 +40,15 @@ public class EmployeeService {
 		List<Employee> employees = employeeRepository.findAll();
 		List<EmployeeDTO> result = new ArrayList<>();
 		
+		log.info("All Employees are retrieved and showed name one by one: ");
 		for(Employee employee : employees) {
 			EmployeeDTO employeeDTO = new EmployeeDTO();
 			employeeDTO.setName(employee.getName());
 			employeeDTO.setGender(employee.getGender());
 			employeeDTO.setDepartment(employee.getDepartment());
 			employeeDTO.setSalary(employee.getSalary());
+			
+			log.info("Name is: " + employee.getName());
 			
 			result.add(employeeDTO);
 		}
@@ -71,6 +76,7 @@ public class EmployeeService {
 			
 			if(employeeDTO.getId() == id) {
 				employeesList.remove(i);
+				log.info("Employee deleted having id {}.", id);
 				break;
 			}
 		}
