@@ -3,7 +3,7 @@ package com.bridgelabz.employeepayrollapp.dto;
 import lombok.Getter;
 import lombok.Setter;
 
-// Adding the Getter and Setter using annotation from lambok library
+// Added the getters and setters for the DTO attributes using the Lombok library
 @Getter
 @Setter
 public class EmployeeDTO {
