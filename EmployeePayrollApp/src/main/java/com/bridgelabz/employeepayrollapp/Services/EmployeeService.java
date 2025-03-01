@@ -3,6 +3,7 @@ package com.bridgelabz.employeepayrollapp.Services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.bridgelabz.employeepayrollapp.Exception.EmployeeNotFoundException;
 import com.bridgelabz.employeepayrollapp.Model.Employee;
 import com.bridgelabz.employeepayrollapp.RepositoryLayer.EmployeeRepository;
 import com.bridgelabz.employeepayrollapp.dto.EmployeeDTO;
@@ -74,7 +75,7 @@ public class EmployeeService {
 	}
 
 	public EmployeeDTO getEmployeeById(Long id) {
-		Employee employee = employeeRepository.findById(id).orElseThrow(() -> new RuntimeException("Some problem occured!"));
+		Employee employee = employeeRepository.findById(id).orElseThrow(() -> new EmployeeNotFoundException("Employee not found with id: " + id));
 		EmployeeDTO employeeDTO = new EmployeeDTO();
 		employeeDTO.setId(employee.getId());
 		employeeDTO.setName(employee.getName());
