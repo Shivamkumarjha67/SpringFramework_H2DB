@@ -7,10 +7,13 @@ import com.bridgelabz.employeepayrollapp.Model.Employee;
 import com.bridgelabz.employeepayrollapp.RepositoryLayer.EmployeeRepository;
 import com.bridgelabz.employeepayrollapp.dto.EmployeeDTO;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@Slf4j
 public class EmployeeService {
 	@Autowired
 	private EmployeeRepository employeeRepository;
@@ -27,6 +30,7 @@ public class EmployeeService {
 		employee.setSalary(employeeDto.getSalary());
 		
 		employeeRepository.save(employee);
+		log.info("Employee added to database {} ...", employee.getName());
 		return "Employee added successfully...";
 	}
 
